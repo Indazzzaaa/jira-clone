@@ -1,15 +1,6 @@
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
-import { FcGoogle } from "react-icons/fc";
-import { FaGithub } from "react-icons/fa";
+"use client";
+import { DottedSeparator } from "@/components/dotted-seprator";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -17,15 +8,24 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { DottedSeparator } from "@/components/dotted-seprator";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { registerSchema, registerSchemaType } from "../schemas";
+import { useForm } from "react-hook-form";
+import { FaGithub } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 import { useRegister } from "../api/use-register";
+import { registerSchema, registerSchemaType } from "../schemas";
 
 export const SignUpCard = () => {
-  const { mutate } = useRegister();
+  const { mutate, isPending } = useRegister();
 
   const form = useForm<registerSchemaType>({
     resolver: zodResolver(registerSchema),
@@ -109,7 +109,7 @@ export const SignUpCard = () => {
                 </FormItem>
               )}
             />
-            <Button disabled={false} size="lg" className="w-full">
+            <Button disabled={isPending} size="lg" className="w-full">
               Register
             </Button>
           </form>
@@ -121,7 +121,7 @@ export const SignUpCard = () => {
       </div>
       <CardContent className="p-7 flex flex-col gap-y-4">
         <Button
-          disabled={false}
+          disabled={isPending}
           variant="secondary"
           size="lg"
           className="w-full"
@@ -130,7 +130,7 @@ export const SignUpCard = () => {
           Login with Google
         </Button>
         <Button
-          disabled={false}
+          disabled={isPending}
           variant="secondary"
           size="lg"
           className="w-full"
@@ -146,7 +146,7 @@ export const SignUpCard = () => {
         <p>
           Already have an account?
           <Link href="/sign-in">
-            <span className="text-blue-700">&nbsp;Login</span>
+            <span className="text-blue-700">&nbsp;Sign in</span>
           </Link>
         </p>
       </CardContent>
